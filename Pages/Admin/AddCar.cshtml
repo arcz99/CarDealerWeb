@@ -1,0 +1,34 @@
+﻿@page
+@model CarDealerWeb.Pages.Admin.AddCarModel
+
+<h2>Dodaj nowy samochód</h2>
+
+<form method="post">
+    <div class="mb-3">
+        <label>Marka</label>
+        <input asp-for="Car.Brand" class="form-control" />
+        <span asp-validation-for="Car.Brand" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label>Model</label>
+        <input asp-for="Car.Model" class="form-control" />
+        <span asp-validation-for="Car.Model" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label>Rok</label>
+        <input asp-for="Car.Year" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Cena</label>
+        <input asp-for="Car.Price" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Opis</label>
+        <textarea asp-for="Car.Description" class="form-control"></textarea>
+    </div>
+    <div class="mb-3">
+        <label>Nazwa pliku obrazka</label>
+        <input asp-for="Car.ImageFileName" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Dodaj samochód</button>
+</form>

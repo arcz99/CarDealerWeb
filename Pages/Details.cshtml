@@ -1,0 +1,15 @@
+﻿@page
+@model CarDealerWeb.Pages.DetailsModel
+@{
+    ViewData["Title"] = "Szczegóły samochodu";
+}
+
+<h2>@Model.Car.Brand @Model.Car.Model</h2>
+
+<ul>
+    <li>Rok produkcji: @Model.Car.Year</li>
+    <li>Cena: @Model.Car.Price zł</li>
+    <li>Opis: @Model.Car.Description</li>
+</ul>
+
+<a class="btn btn-secondary" href="/">⬅️ Powrót</a>

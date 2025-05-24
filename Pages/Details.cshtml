@@ -12,4 +12,15 @@
     <li>Opis: @Model.Car.Description</li>
 </ul>
 
+<h4>Galeria zdjęć</h4>
+<div class="row">
+    @foreach (var image in Model.Car.Images)
+    {
+        <div class="col-md-3 mb-3">
+            <img src="/uploads/@image.FileName" class="img-fluid rounded shadow-sm" />
+        </div>
+    }
+</div>
+
+
 <a class="btn btn-secondary" href="/">⬅️ Powrót</a>

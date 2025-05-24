@@ -13,6 +13,7 @@ namespace CarDealerWeb.Models
         public decimal Price { get; set; }
         public string Description { get; set; }
         public string? ImageFileName { get; set; }
+        public List<CarImage> Images { get; set; } = new();
 
     }
 }

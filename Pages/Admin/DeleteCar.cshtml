@@ -1,0 +1,19 @@
+﻿@page "{id:int}"
+@model CarDealerWeb.Pages.Admin.DeleteCarModel
+@{
+    ViewData["Title"] = "Usuń Auto";
+}
+
+<h2>Czy na pewno chcesz usunąć to auto?</h2>
+
+<div class="mb-3">
+    <strong>@Model.Car.Brand @Model.Car.Model</strong><br />
+    Rok: @Model.Car.Year <br />
+    Cena: @Model.Car.Price zł
+</div>
+
+<form method="post">
+    <input type="hidden" asp-for="Car.id" />
+    <button type="submit" class="btn btn-danger">Tak, usuń</button>
+    <a asp-page="Cars" class="btn btn-secondary">Anuluj</a>
+</form>

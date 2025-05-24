@@ -2,34 +2,46 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using CarDealerWeb.Data;
 using CarDealerWeb.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using System.IO;
 
 namespace CarDealerWeb.Pages.Admin
 {
-    [Authorize]
-    public class AddCarModel : PageModel
+    public class EditCarModel : PageModel
     {
         private readonly ApplicationDbContext _context;
 
-        public AddCarModel(ApplicationDbContext context)
+        public EditCarModel(ApplicationDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public Car Car { get; set; }
+        public Car Car { get; set; } = default!;
 
-        public void OnGet()
-        {
-        }
         [BindProperty]
         public List<IFormFile>? Uploads { get; set; }
+
+        public async Task<IActionResult> OnGetAsync(int id)
+        {
+            Car = await _context.Cars.FindAsync(id);
+            if (Car == null) return NotFound();
+            return Page();
+        }
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
                 return Page();
+
+            var carToUpdate = await _context.Cars.FindAsync(Car.id);
+            if (carToUpdate == null)
+                return NotFound();
+
+            // Aktualizacja pól
+            carToUpdate.Brand = Car.Brand;
+            carToUpdate.Model = Car.Model;
+            carToUpdate.Year = Car.Year;
+            carToUpdate.Price = Car.Price;
+            carToUpdate.Description = Car.Description;
 
             // Obs³uga zdjêcia
             if (Uploads != null && Uploads.Count > 0)
@@ -62,9 +74,8 @@ namespace CarDealerWeb.Pages.Admin
                     firstImage.IsMain = true;
             }
 
-            _context.Cars.Add(Car);
             await _context.SaveChangesAsync();
-            return RedirectToPage("/Admin/Cars");
+            return RedirectToPage("Cars");
         }
     }
 }

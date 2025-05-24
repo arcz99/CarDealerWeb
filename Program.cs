@@ -1,5 +1,6 @@
 using CarDealerWeb.Data;
 using CarDealerWeb.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarDealerWeb
@@ -11,6 +12,12 @@ namespace CarDealerWeb
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
             // Add services to the container.
+
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/Login"; // œcie¿ka do strony logowania
+            });
             builder.Services.AddRazorPages();
 
             var app = builder.Build();
@@ -23,6 +30,8 @@ namespace CarDealerWeb
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
@@ -42,6 +51,28 @@ namespace CarDealerWeb
                     context.SaveChanges();
                 }
             }
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+
+                Task.Run(async () =>
+                {
+                    var user = await userManager.FindByEmailAsync("admin@admin.com");
+                    if (user == null)
+                    {
+                        var newUser = new IdentityUser
+                        {
+                            UserName = "admin@admin.com",
+                            Email = "admin@admin.com",
+                            EmailConfirmed = true
+                        };
+                        await userManager.CreateAsync(newUser, "Admin123!");
+                    }
+                }).GetAwaiter().GetResult();
+            }
+
 
             app.Run();
         }

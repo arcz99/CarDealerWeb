@@ -1,7 +1,11 @@
 using CarDealerWeb.Data;
+using CarDealerWeb.Migrations;
 using CarDealerWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using SQLitePCL;
+
 
 namespace CarDealerWeb.Pages
 {
@@ -15,7 +19,6 @@ namespace CarDealerWeb.Pages
         }
 
         public Car Car { get; set; }
-
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -25,7 +28,7 @@ namespace CarDealerWeb.Pages
 
             if (Car == null)
                 return NotFound();
-
+            Car = _context.Cars.Include(c => c.Images).FirstOrDefault(c => c.id == id);
             return Page();
         }
     }

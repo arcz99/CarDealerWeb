@@ -1,0 +1,41 @@
+﻿@page
+@model CarDealerWeb.Pages.Admin.CarsModel
+@{
+    ViewData["Title"] = "Zarządzanie Autami";
+}
+
+<h2>Zarządzanie Autami</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Marka</th>
+            <th>Model</th>
+            <th>Rok</th>
+            <th>Cena</th>
+            <th>Zdjęcie</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in Model.Cars)
+        {
+            <tr>
+                <td>@car.Brand</td>
+                <td>@car.Model</td>
+                <td>@car.Year</td>
+                <td>@car.Price zł</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(car.ImageFileName))
+                    {
+                        <img src="/uploads/@car.ImageFileName" width="100" />
+                    }
+                </td>
+                <td>
+                    <a asp-page="EditCar" asp-route-id="@car.id" class="btn btn-warning btn-sm">Edytuj</a>
+                    <a asp-page="DeleteCar" asp-route-id="@car.id" class="btn btn-danger btn-sm">Usuń</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

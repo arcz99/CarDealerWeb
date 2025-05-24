@@ -1,0 +1,37 @@
+﻿@page
+@model CarDealerWeb.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "Logowanie";
+}
+
+<h2>Zaloguj się</h2>
+
+<form method="post">
+    <partial name="_ValidationScriptsPartial" />
+    <vc:validation />
+    <validation-summary />
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label for="email">Email</label>
+        <input asp-for="Input.Email" class="form-control" />
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label for="password">Hasło</label>
+        <input asp-for="Input.Password" class="form-control" type="password" />
+        <span asp-validation-for="Input.Password" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3 form-check">
+        <input asp-for="Input.RememberMe" class="form-check-input" />
+        <label asp-for="Input.RememberMe" class="form-check-label">Zapamiętaj mnie</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Zaloguj</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

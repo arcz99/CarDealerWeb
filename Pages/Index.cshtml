@@ -1,22 +1,31 @@
 ﻿@page
 @model CarDealerWeb.Pages.IndexModel
+@{
+    ViewData["Title"] = "Strona Główna";
+}
 
-<h1>Nasze samochody</h1>
+<h1>Dostępne samochody</h1>
 
-<div class="row">
+<div class="row row-cols-1 row-cols-md-3 g-4">
     @foreach (var car in Model.Cars)
     {
-        <div class="col-md-4">
-            <div class="card mb-4 shadow-sm">
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                @{
+                    var mainImage = car.Images.FirstOrDefault(i => i.IsMain);
+                }
+
+                @if (mainImage != null)
+                {
+                    <img src="/uploads/@mainImage.FileName" class="card-img-top" />
+                }
                 <div class="card-body">
-                    <h5 class="card-title">
-                        <a href="/Details?id=@car.id">@car.Brand @car.Model</a>
-                    </h5>
+                    <h5 class="card-title">@car.Brand @car.Model</h5>
                     <p class="card-text">
-                        Rok: @car.Year <br />
-                        Cena: @car.Price zł <br />
-                        @car.Description
+                        Rok: @car.Year<br />
+                        Cena: <strong>@car.Price zł</strong>
                     </p>
+                    <a asp-page="/Details" asp-route-id="@car.id" class="btn btn-primary">Zobacz więcej</a>
                 </div>
             </div>
         </div>

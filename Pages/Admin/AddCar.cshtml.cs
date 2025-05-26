@@ -26,19 +26,30 @@ namespace CarDealerWeb.Pages.Admin
         }
         [BindProperty]
         public List<IFormFile>? Uploads { get; set; }
+
+        [BindProperty]
+        public int MainImageIndex { get; set; }
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
                 return Page();
 
-            // Obs³uga zdjêcia
-            if (Uploads != null && Uploads.Count > 0)
+            // Najpierw dodaj auto, ¿eby mia³o ID
+            _context.Cars.Add(Car);
+            await _context.SaveChangesAsync();
+
+            if (Uploads != null && Uploads.Any())
             {
                 var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
 
+                if (!Directory.Exists(uploadPath))
+                    Directory.CreateDirectory(uploadPath);
+
+                int imageIndex = 0;
                 foreach (var file in Uploads.Take(10))
                 {
-                    var fileName = Path.GetFileName(Guid.NewGuid() + "_" + file.FileName);
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                     var filePath = Path.Combine(uploadPath, fileName);
 
                     using (var stream = new FileStream(filePath, FileMode.Create))
@@ -46,24 +57,20 @@ namespace CarDealerWeb.Pages.Admin
                         await file.CopyToAsync(stream);
                     }
 
-                    var carImage = new CarImage
+                    var image = new CarImage
                     {
                         FileName = fileName,
-                        IsMain = false,
-                        Car = Car
+                        IsMain = (imageIndex == MainImageIndex),
+                        CarId = Car.id
                     };
 
-                    _context.CarImages.Add(carImage);
+                    _context.CarImages.Add(image);
+                    imageIndex++;
                 }
 
-                // Mo¿esz wybraæ pierwsze jako domyœlne g³ówne
-                var firstImage = Car.Images.FirstOrDefault();
-                if (firstImage != null)
-                    firstImage.IsMain = true;
+                await _context.SaveChangesAsync(); // dopiero teraz zapis zdjêæ
             }
 
-            _context.Cars.Add(Car);
-            await _context.SaveChangesAsync();
             return RedirectToPage("/Admin/Cars");
         }
     }

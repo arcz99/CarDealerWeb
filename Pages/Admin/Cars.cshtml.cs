@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
 using CarDealerWeb.Data;
 using CarDealerWeb.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarDealerWeb.Pages.Admin
 {
@@ -17,9 +18,10 @@ namespace CarDealerWeb.Pages.Admin
 
         public List<Car> Cars { get; set; } = new();
 
-        public void OnGet()
+        public async void OnGet()
         {
-            Cars = _context.Cars.ToList();
+            //Cars = _context.Cars.ToList();
+            Cars = await _context.Cars.Include(c=>c.Images).ToListAsync();
         }
     }
 }

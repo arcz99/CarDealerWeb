@@ -26,9 +26,12 @@
                 <td>@car.Year</td>
                 <td>@car.Price zł</td>
                 <td>
-                    @if (!string.IsNullOrEmpty(car.ImageFileName))
+                    @{
+                        var mainImage = car.Images?.FirstOrDefault(i => i.IsMain)?.FileName;
+                    }
+                    @if (!string.IsNullOrEmpty(mainImage))
                     {
-                        <img src="/uploads/@car.ImageFileName" width="100" />
+                        <img src="/uploads/@mainImage" width="100" />
                     }
                 </td>
                 <td>

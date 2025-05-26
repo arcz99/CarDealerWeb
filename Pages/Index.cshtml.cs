@@ -19,7 +19,8 @@ namespace CarDealerWeb.Pages
 
         public async Task OnGetAsync()
         {
-            Cars = await _context.Cars.ToListAsync();
+            Cars = _context.Cars.Include(c => c.Images).ToList();
         }
+
     }
 }

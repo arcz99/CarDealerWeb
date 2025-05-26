@@ -30,9 +30,17 @@
         <label>Nazwa pliku obrazka</label>
         <input asp-for="Car.ImageFileName" class="form-control" />
     </div>
-    <div class="mb-3">
-        <label for="Upload" class="form-label">Zdjęcie auta</label>
-        <input type="file" name="Uploads" class="form-control" multiple />
+    <div class="form-group">
+        <label>Dodaj zdjęcia (max 10) i zaznacz jedno jako główne</label>
+        <input type="file" name="Uploads" multiple class="form-control" />
+        <input type="hidden" id="MainImageIndex" name="MainImageIndex" value="0" />
+        <script>
+            document.querySelector('input[name="Uploads"]').addEventListener('change', function (e) {
+                // Można tu dodać dynamiczne wybieranie głównego zdjęcia
+                // na razie np. pierwsze zaznaczone
+                document.getElementById('MainImageIndex').value = 0; // domyślnie 1. zdjęcie
+            });
+        </script>
     </div>
     <button type="submit" class="btn btn-primary">Dodaj samochód</button>
     <partial name="_ValidationScriptsPartial" />

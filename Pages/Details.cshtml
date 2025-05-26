@@ -4,6 +4,7 @@
     ViewData["Title"] = "Szczegóły samochodu";
 }
 
+
 <h2>@Model.Car.Brand @Model.Car.Model</h2>
 
 <ul>
@@ -17,10 +18,11 @@
     @foreach (var image in Model.Car.Images)
     {
         <div class="col-md-3 mb-3">
-            <img src="/uploads/@image.FileName" class="img-fluid rounded shadow-sm" />
+            <a href="/uploads/@image.FileName" data-lightbox="car-gallery" data-title="@Model.Car.Brand @Model.Car.Model">
+                <img src="/uploads/@image.FileName" class="img-fluid rounded shadow-sm" />
+            </a>
         </div>
     }
 </div>
-
 
 <a class="btn btn-secondary" href="/">⬅️ Powrót</a>

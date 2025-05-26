@@ -5,16 +5,18 @@ namespace CarDealerWeb.Models
 {
     public class CarImage
     {
+        [Key]
         public int Id { get; set; }
 
-        [Required]
-        public string FileName { get; set; } = default!;
+        public string FileName { get; set; } = string.Empty;
 
-        public bool IsMain { get; set; } = false;
+        public bool IsMain { get; set; }
 
+        public int ImageOrder { get; set; } = 0;
+
+        [ForeignKey("Car")]
         public int CarId { get; set; }
 
-        [ForeignKey("CarId")]
         public Car Car { get; set; } = default!;
     }
 }

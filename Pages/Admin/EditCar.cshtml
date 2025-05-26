@@ -10,35 +10,82 @@
     <input type="hidden" asp-for="Car.id" />
 
     <div class="mb-3">
-        <label>Marka</label>
+        <label asp-for="Car.Brand"></label>
         <input asp-for="Car.Brand" class="form-control" />
+        <span asp-validation-for="Car.Brand" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label>Model</label>
+        <label asp-for="Car.Model"></label>
         <input asp-for="Car.Model" class="form-control" />
+        <span asp-validation-for="Car.Model" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label>Rok</label>
+        <label asp-for="Car.Year"></label>
         <input asp-for="Car.Year" class="form-control" />
+        <span asp-validation-for="Car.Year" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label>Cena</label>
+        <label asp-for="Car.Price"></label>
         <input asp-for="Car.Price" class="form-control" />
+        <span asp-validation-for="Car.Price" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label>Opis</label>
+        <label asp-for="Car.Description"></label>
         <textarea asp-for="Car.Description" class="form-control"></textarea>
+        <span asp-validation-for="Car.Description" class="text-danger"></span>
     </div>
 
+    <hr />
+
+    <h4>Aktualne zdjęcia</h4>
+    <div id="sortableImages" class="row">
+        @for (int i = 0; i < Model.Car.Images.Count; i++)
+        {
+            var img = Model.Car.Images[i];
+            <div class="col-md-3 mb-3 image-item" data-id="@img.Id">
+                <div class="card">
+                    <img src="/uploads/@img.FileName" class="card-img-top" style="height: 150px; object-fit: cover;" />
+                    <div class="card-body text-center">
+                        <input type="radio" name="MainImageId" value="@img.Id" @(img.IsMain ? "checked" : "") /> Główne<br />
+                        <input type="checkbox" name="DeleteImageIds" value="@img.Id" /> Usuń
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <input type="hidden" id="ImageOrder" name="ImageOrder" />
+
+    <hr />
+
+    <h4>Dodaj nowe zdjęcia</h4>
     <div class="mb-3">
-        <label>Zdjęcie (opcjonalnie nowe)</label>
-        <input type="file" name="Uploads" class="form-control" multiple />
+        <input type="file" name="Uploads" multiple class="form-control" accept="image/*" />
     </div>
 
     <button type="submit" class="btn btn-primary">Zapisz</button>
     <a asp-page="Cars" class="btn btn-secondary">Anuluj</a>
 </form>
+
+@section Scripts {
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <script>
+        $(function () {
+            $("#sortableImages").sortable({
+                items: ".image-item",
+                update: function (event, ui) {
+                    var orderedIds = $("#sortableImages .image-item").map(function () {
+                        return $(this).data("id");
+                    }).get();
+                    $("#ImageOrder").val(orderedIds.join(","));
+                }
+            });
+        });
+    </script>
+
+    <partial name="_ValidationScriptsPartial" />
+}

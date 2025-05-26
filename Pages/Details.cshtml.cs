@@ -1,5 +1,4 @@
 using CarDealerWeb.Data;
-using CarDealerWeb.Migrations;
 using CarDealerWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

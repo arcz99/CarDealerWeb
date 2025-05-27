@@ -31,6 +31,12 @@ namespace CarDealerWeb
 
             var app = builder.Build();
 
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<CarDealerWeb.Data.ApplicationDbContext>();
+                db.Database.Migrate();
+            }
+
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Error");

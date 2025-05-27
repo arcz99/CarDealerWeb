@@ -1,0 +1,53 @@
+﻿@page
+@model CarDealerWeb.Pages.ContactModel
+@{
+    ViewData["Title"] = "Kontakt";
+}
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm p-4" style="border-radius: 18px;">
+                <div class="row">
+                    <!-- LEWA KOLUMNA: dane i mapa -->
+                    <div class="col-md-6 mb-4 mb-md-0">
+                        <h2 class="mb-3 text-center">Kontakt</h2>
+                        <ul class="list-unstyled mb-4">
+                            <li><strong>Telefon:</strong> <a href="tel:+48123456789" class="text-dark">+48 123 456 789</a></li>
+                            <li><strong>Email:</strong> <a href="mailto:kontakt@wojtascars.pl" class="text-dark">kontakt@wojtascars.pl</a></li>
+                            <li><strong>Adres:</strong> 38-480 Sieniawa, ul. Przykładowa 10</li>
+                        </ul>
+                        <div class="rounded shadow-sm overflow-hidden" style="height:260px;">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2586.9638235121!2d21.91986297687811!3d49.57957134968489!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x473c40741daf4703%3A0xa81990b199788349!2sD%C5%82uga%2019%2C%2038-480%20Sieniawa!5e0!3m2!1spl!2spl!4v1748386915575!5m2!1spl!2spl"
+                                width="100%" height="260" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                    </div>
+                    <!-- PRAWA KOLUMNA: formularz kontaktowy -->
+                    <div class="col-md-6">
+                        <h2 class="mb-3 text-center">Napisz do nas</h2>
+                        <form method="post">
+                            <div class="mb-3">
+                                <label for="Name" class="form-label">Imię i nazwisko</label>
+                                <input type="text" class="form-control" id="Name" name="Name" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="Email" class="form-label">Adres e-mail</label>
+                                <input type="email" class="form-control" id="Email" name="Email" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="Message" class="form-label">Wiadomość</label>
+                                <textarea class="form-control" id="Message" name="Message" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold shadow-sm">Wyślij wiadomość</button>
+                            @if (Model.MessageSent)
+                            {
+                                <div class="alert alert-success mt-3">Dziękujemy za kontakt! Odpowiemy tak szybko, jak to możliwe.</div>
+                            }
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

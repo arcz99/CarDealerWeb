@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - CarDealerWeb</title>
+    <title>@ViewData["Title"] -CarDealerWeb</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CarDealerWeb.styles.css" asp-append-version="true" />
@@ -28,10 +28,7 @@
                 <div class="collapse navbar-collapse" id="mainNavbar">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link text-white fw-bold" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white fw-bold" asp-area="" asp-page="/Cars">Samochody</a>
+                            <a class="nav-link text-white fw-bold" asp-area="" asp-page="/Index">Samochody</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white fw-bold" asp-area="" asp-page="/Contact">Kontakt</a>
@@ -44,9 +41,13 @@
                             <li class="nav-item">
                                 <a class="nav-link text-white fw-bold" asp-page="/Admin/Cars">Zarządzaj autami</a>
                             </li>
-                            <li class="nav-item">
-                                <form method="post" asp-page="/Account/Logout" style="display:inline;">
-                                    <button type="submit" class="btn btn-link nav-link text-white fw-bold p-0" style="background:none;border:none;">Wyloguj się</button>
+                            <li class="nav-item d-flex align-items-center">
+                                <form method="post" asp-page="/Account/Logout" style="display: flex; align-items: center; height: 100%; margin: 0;">
+                                    <button type="submit"
+                                            class="btn btn-link nav-link text-white fw-bold align-self-center py-2"
+                                            style="background: none; border: none;">
+                                        Wyloguj się
+                                    </button>
                                 </form>
                             </li>
                         }

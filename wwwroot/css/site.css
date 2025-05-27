@@ -36,3 +36,54 @@ body {
     .car-card-link:hover .card-text {
         color: #1a73e8 !important; /* np. Google blue, lub zmieñ na swój odcieñ */
     }
+
+body {
+    background: #b57527;
+    font-family: 'Montserrat', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.card {
+    border-radius: 18px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+}
+
+.card-img-top {
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+}
+
+.btn-primary, .btn-primary:focus {
+    background: #1a1a1a;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 3px 12px #b5752740;
+}
+
+    .btn-primary:hover {
+        background: #b57527;
+        color: #fff;
+        box-shadow: 0 6px 18px #1a1a1a33;
+    }
+
+.form-control, .form-select {
+    border-radius: 22px;
+    border: 1px solid #eee;
+}
+
+.navbar, .footer {
+    background: #1a1a1a !important;
+}
+
+.nav-link, .navbar-brand {
+    color: #fff !important;
+    letter-spacing: 1px;
+    transition: color 0.2s;
+}
+
+    .nav-link:hover, .navbar-brand:hover {
+        color: #b57527 !important;
+    }

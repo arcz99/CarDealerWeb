@@ -10,68 +10,71 @@
     <partial name="_ValidationScriptsPartial" />
     <!-- Lightbox2 CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100 bg-white">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"> 
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background: #1a1a1a;">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">CarDealerWeb</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <!-- Logo jako link na stronę główną -->
+                <a class="navbar-brand d-flex align-items-center" asp-area="" asp-page="/Index" style="gap:12px;">
+                    <img src="~/img/logo.png" alt="WOJTAS.CARS logo" height="56" style="border-radius:8px;">
+                    <span style="font-weight: 700; font-size: 2rem; letter-spacing: 2px;">WOJTAS.CARS</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link text-white fw-bold" asp-area="" asp-page="/Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white fw-bold" asp-area="" asp-page="/Cars">Samochody</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white fw-bold" asp-area="" asp-page="/Contact">Kontakt</a>
+                        </li>
                         @if (User.Identity?.IsAuthenticated ?? false)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-page="/Admin/AddCar">Dodaj auto</a>
+                                <a class="nav-link text-white fw-bold" asp-page="/Admin/AddCar">Dodaj auto</a>
                             </li>
                             <li class="nav-item">
-                                <form method="post" asp-page="/Account/Logout">
-                                    <button type="submit" class="btn btn-link nav-link">Wyloguj się</button>
+                                <a class="nav-link text-white fw-bold" asp-page="/Admin/Cars">Zarządzaj autami</a>
+                            </li>
+                            <li class="nav-item">
+                                <form method="post" asp-page="/Account/Logout" style="display:inline;">
+                                    <button type="submit" class="btn btn-link nav-link text-white fw-bold p-0" style="background:none;border:none;">Wyloguj się</button>
                                 </form>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-page="/Account/Login">Zaloguj</a>
+                                <a class="nav-link text-white fw-bold" asp-page="/Account/Login">Zaloguj</a>
                             </li>
                         }
-                        @if (User.Identity != null && User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-page="/Admin/Cars">Zarządzaj autami</a>
-                            </li>
-                        }
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container flex-grow-1 py-4">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - CarDealerWeb - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        <footer class="border-top mt-auto" style="background:#1a1a1a;color:#fff;">
+        <div class="container py-2 d-flex justify-content-between align-items-center">
+            <span>&copy; 2025 - WOJTAS.CARS</span>
+            <a asp-area="" asp-page="/Privacy" style="color:#fff;text-decoration:underline;">Polityka prywatności</a>
         </div>
     </footer>
-
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
     @await RenderSectionAsync("Scripts", required: false)
     <!-- Lightbox2 JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>

@@ -20,3 +20,19 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.car-card-link,
+.car-card-link:visited {
+    color: #212529 !important;
+    text-decoration: none !important;
+}
+
+    .car-card-link .card-title,
+    .car-card-link .card-text {
+        color: #212529 !important;
+    }
+
+    .car-card-link:hover .card-title,
+    .car-card-link:hover .card-text {
+        color: #1a73e8 !important; /* np. Google blue, lub zmieñ na swój odcieñ */
+    }

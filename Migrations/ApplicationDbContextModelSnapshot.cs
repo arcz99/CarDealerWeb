@@ -38,8 +38,8 @@ namespace CarDealerWeb.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("TEXT");
+                    b.Property<float>("Price")
+                        .HasColumnType("REAL");
 
                     b.Property<int>("Year")
                         .HasColumnType("INTEGER");

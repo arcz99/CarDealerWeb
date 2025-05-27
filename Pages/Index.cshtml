@@ -1,33 +1,95 @@
 ﻿@page
 @model CarDealerWeb.Pages.IndexModel
 @{
-    ViewData["Title"] = "Strona Główna";
+    ViewData["Title"] = "Dostępne samochody";
 }
 
-<h1>Dostępne samochody</h1>
+@{
+    var selectedPriceAsc = Model.SortOrder == "price_asc" ? "selected" : "";
+    var selectedPriceDesc = Model.SortOrder == "price_desc" ? "selected" : "";
+    var selectedYearAsc = Model.SortOrder == "year_asc" ? "selected" : "";
+    var selectedYearDesc = Model.SortOrder == "year_desc" ? "selected" : "";
+}
+<style>
+    .car-card-link {
+        display: block;
+        transition: transform 0.15s;
+    }
 
-<div class="row row-cols-1 row-cols-md-3 g-4">
-    @foreach (var car in Model.Cars)
-    {
-        <div class="col">
-            <div class="card h-100 shadow-sm">
-                @{
-                    var mainImage = car.Images.FirstOrDefault(i => i.IsMain);
-                }
+        .car-card-link .card {
+            transition: transform 0.15s, box-shadow 0.15s;
+            border-radius: 16px;
+        }
 
-                @if (mainImage != null)
-                {
-                    <img src="/uploads/@mainImage.FileName" class="card-img-top" />
-                }
+        .car-card-link:hover .card {
+            transform: scale(1.04);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.18), 0 1.5px 6px rgba(0,0,0,0.10);
+            z-index: 2;
+            border: 2px solid #007bff33;
+        }
+
+    .car-card-link {
+        cursor: pointer;
+    }
+</style>
+<div class="container mt-4">
+    <div class="row">
+        <!-- SIDEBAR -->
+        <div class="col-md-3 ps-0" style="margin-top: 72px;">
+            <div class="card shadow-sm mb-4" style="border-radius: 16px;">
                 <div class="card-body">
-                    <h5 class="card-title">@car.Brand @car.Model</h5>
-                    <p class="card-text">
-                        Rok: @car.Year<br />
-                        Cena: <strong>@car.Price zł</strong>
-                    </p>
-                    <a asp-page="/Details" asp-route-id="@car.id" class="btn btn-primary">Zobacz więcej</a>
+                    <form method="get">
+                        <div class="mb-4">
+                            <label for="SearchTerm" class="form-label fw-bold">Szukaj samochodu</label>
+                            <input type="text" class="form-control rounded-pill" id="SearchTerm" name="SearchTerm" value="@Model.SearchTerm" placeholder="Marka, model, opis..." />
+                        </div>
+                        <div class="mb-4">
+                            <label for="SortOrder" class="form-label fw-bold">Sortuj według</label>
+                            <select class="form-select rounded-pill" id="SortOrder" name="SortOrder">
+                                <option value="">Domyślnie</option>
+                                <option value="price_asc" selectedPriceAsc>Cena rosnąco</option>
+                                <option value="price_desc" selectedPriceDesc>Cena malejąco</option>
+                                <option value="year_asc" selectedYearAsc>Rok rosnąco</option>
+                                <option value="year_desc" selectedYearDesc>Rok malejąco</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold shadow-sm">Filtruj</button>
+                    </form>
                 </div>
             </div>
         </div>
-    }
+        <!-- LISTA AUT -->
+        <div class="col-md-9">
+            <h1 class="mb-4">Dostępne samochody</h1>
+            <div class="row">
+                @if (Model.Cars.Count == 0)
+                {
+                    <div class="col-12">
+                        <div class="alert alert-info">Brak aut spełniających kryteria.</div>
+                    </div>
+                }
+                @foreach (var car in Model.Cars)
+                {
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <a asp-page="/Details" asp-route-id="@car.id" class="car-card-link text-decoration-none">
+                            <div class="card h-100 shadow-sm" style="border-radius: 16px;">
+                                <img src="@(car.Images.FirstOrDefault(i => i.IsMain)?.FileName != null ? "/uploads/" + car.Images.First(i => i.IsMain).FileName : "/img/placeholder.png")"
+                                     class="card-img-top" style="height: 200px; object-fit: cover; border-top-left-radius: 16px; border-top-right-radius: 16px;" />
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold">@car.Brand @car.Model</h5>
+                                    <p class="card-text text-muted mb-2" style="font-size: 15px;">
+                                        Rok: <span class="fw-bold">@car.Year</span><br />
+                                        Cena: <span class="fw-bold text-primary">@car.Price.ToString("N0") zł</span>
+                                    </p>
+                                    <div class="text-secondary" style="font-size: 14px;">
+                                        @((car.Description?.Length > 40 ? car.Description.Substring(0, 40) + "..." : car.Description))
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 </div>

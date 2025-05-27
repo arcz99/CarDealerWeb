@@ -26,12 +26,8 @@
         <label>Opis</label>
         <textarea asp-for="Car.Description" class="form-control"></textarea>
     </div>
-    <div class="mb-3">
-        <label>Nazwa pliku obrazka</label>
-        <input asp-for="Car.ImageFileName" class="form-control" />
-    </div>
     <div class="form-group">
-        <label>Dodaj zdjęcia (max 10) i zaznacz jedno jako główne</label>
+        <label>Dodaj zdjęcia (max 10)</label>
         <input type="file" name="Uploads" multiple class="form-control" />
         <input type="hidden" id="MainImageIndex" name="MainImageIndex" value="0" />
         <script>

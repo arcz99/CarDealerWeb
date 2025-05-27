@@ -59,7 +59,7 @@ namespace CarDealerWeb
             }
 
             // Dodawanie u¿ytkownika administratora
-            /*using (var scope = app.Services.CreateScope())
+            using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
@@ -78,7 +78,7 @@ namespace CarDealerWeb
                         await userManager.CreateAsync(newUser, "Admin123!");
                     }
                 }).GetAwaiter().GetResult();
-            }*/
+            }
 
             app.Run();
         }

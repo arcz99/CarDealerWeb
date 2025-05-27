@@ -44,6 +44,7 @@ namespace CarDealerWeb.Pages.Admin
 
         public async Task<IActionResult> OnPostAsync()
         {
+            ModelState.Remove("ImageOrder");
             if (!ModelState.IsValid)
                 return Page();
 
@@ -54,7 +55,7 @@ namespace CarDealerWeb.Pages.Admin
             if (carToUpdate == null)
                 return NotFound();
 
-            // Podstawowe pola
+            // Aktualizacja podstawowych pól
             carToUpdate.Brand = Car.Brand;
             carToUpdate.Model = Car.Model;
             carToUpdate.Year = Car.Year;
@@ -74,22 +75,6 @@ namespace CarDealerWeb.Pages.Admin
                     _context.CarImages.Remove(img);
                 }
             }
-
-            // Kolejnoœæ zdjêæ
-            if (!string.IsNullOrEmpty(ImageOrder))
-            {
-                var ids = ImageOrder.Split(',').Select(int.Parse).ToList();
-                for (int i = 0; i < ids.Count; i++)
-                {
-                    var img = carToUpdate.Images.FirstOrDefault(x => x.Id == ids[i]);
-                    if (img != null)
-                        img.ImageOrder = i;
-                }
-            }
-
-            // Ustawienie g³ównego zdjêcia
-            foreach (var img in carToUpdate.Images)
-                img.IsMain = (img.Id == MainImageId);
 
             // Dodaj nowe zdjêcia
             if (Uploads != null && Uploads.Count > 0)
@@ -114,16 +99,38 @@ namespace CarDealerWeb.Pages.Admin
                     {
                         FileName = fileName,
                         IsMain = false,
-                        CarId = Car.id,
+                        Car = carToUpdate, // POWI¥ZANIE przez obiekt
                         ImageOrder = nextOrder++
                     };
 
                     _context.CarImages.Add(image);
                 }
+
+                // Najpierw zapisujemy zmiany, ¿eby zdjêcia mia³y przydzielone ID
+                await _context.SaveChangesAsync();
+
+                // Odœwie¿ listê zdjêæ samochodu
+                await _context.Entry(carToUpdate).Collection(c => c.Images).LoadAsync();
             }
 
+            // Aktualizuj kolejnoœæ zdjêæ (ImageOrder)
+            if (!string.IsNullOrEmpty(ImageOrder))
+            {
+                var ids = ImageOrder.Split(',').Select(int.Parse).ToList();
+                for (int i = 0; i < ids.Count; i++)
+                {
+                    var img = carToUpdate.Images.FirstOrDefault(x => x.Id == ids[i]);
+                    if (img != null)
+                        img.ImageOrder = i;
+                }
+            }
+
+            // Ustawienie g³ównego zdjêcia
+            foreach (var img in carToUpdate.Images)
+                img.IsMain = (img.Id == MainImageId);
+
             // Jeœli ¿adne zdjêcie nie jest g³ówne, ustaw pierwsze jako g³ówne
-            if (!carToUpdate.Images.Any(i => i.IsMain))
+            if (!carToUpdate.Images.Any(i => i.IsMain) && carToUpdate.Images.Any())
             {
                 var first = carToUpdate.Images.OrderBy(i => i.ImageOrder).FirstOrDefault();
                 if (first != null)

@@ -3,8 +3,6 @@ using CarDealerWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
-
 
 namespace CarDealerWeb.Pages
 {
@@ -18,16 +16,22 @@ namespace CarDealerWeb.Pages
         }
 
         public Car Car { get; set; }
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
                 return NotFound();
 
-            Car = await _context.Cars.FindAsync(id);
+            Car = await _context.Cars
+                .Include(c => c.Images)
+                .FirstOrDefaultAsync(c => c.id == id);
 
             if (Car == null)
                 return NotFound();
-            Car = _context.Cars.Include(c => c.Images).FirstOrDefault(c => c.id == id);
+
+            // RÊCZNE SORTOWANIE ZDJÊÆ PO ImageOrder
+            Car.Images = Car.Images.OrderBy(i => i.ImageOrder).ToList();
+
             return Page();
         }
     }

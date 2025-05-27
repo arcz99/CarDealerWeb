@@ -12,7 +12,7 @@ namespace CarDealerWeb.Models
 
         public bool IsMain { get; set; }
 
-        public int ImageOrder { get; set; } = 0;
+        public int ImageOrder { get; set; }
 
         [ForeignKey("Car")]
         public int CarId { get; set; }

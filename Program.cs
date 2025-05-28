@@ -48,7 +48,7 @@ namespace CarDealerWeb
             app.UseAuthorization();
             app.MapRazorPages();
 
-            // Dodawanie przyk³adowych danych
+            // Dodawanie przykÂ³adowych danych
             using (var scope = app.Services.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -64,7 +64,7 @@ namespace CarDealerWeb
                 }
             }
 
-            // Dodawanie u¿ytkownika administratora
+            // Dodawanie uÂ¿ytkownika administratora
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
@@ -77,9 +77,6 @@ namespace CarDealerWeb
                     {
                         var newUser = new IdentityUser
                         {
-                            UserName = "admin@admin.com",
-                            Email = "admin@admin.com",
-                            EmailConfirmed = true
                         };
                         await userManager.CreateAsync(newUser, "Admin123!");
                     }
